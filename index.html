@@ -12,17 +12,19 @@ html,body{
     font-family: 'Georgia', serif;
     color:#4a0b2e;
     text-align:center;
-    scroll-behavior:smooth;
 }
 
 section{
     min-height:100vh;
     padding:60px 20px;
-    display:flex;
+    display:none;            /* all hidden by default */
     flex-direction:column;
     justify-content:center;
     align-items:center;
 }
+
+/* First scene visible */
+#s1{ display:flex; }
 
 /* Floating hearts */
 .heart{
@@ -36,7 +38,7 @@ section{
     to{transform:translateY(110vh);}
 }
 
-/* Cinematic image style */
+/* Cinematic images */
 .cine-img{
     max-width:340px;
     border-radius:18px;
@@ -50,9 +52,10 @@ section{
   to{transform:scale(1.05);}
 }
 
-/* Memory (your jpeg video moment) */
+/* Your “video moment” JPEG */
 .memory{
   width:600px;
+  max-width:90%;
   border-radius:18px;
   border:3px solid hotpink;
   box-shadow:0 0 30px rgba(255,105,180,0.8);
@@ -64,11 +67,13 @@ section{
   to{transform:scale(1.03) translateX(10px);}
 }
 
-/* Frames scene */
+/* Two frames */
 .frames{
     display:flex;
     gap:40px;
     margin-top:20px;
+    flex-wrap:wrap;
+    justify-content:center;
 }
 .frame{
     border:3px solid hotpink;
@@ -110,7 +115,7 @@ button{
     position:relative;
 }
 
-/* Fireworks + final message */
+/* Final message */
 #fireworks{
     display:none;
     font-size:40px;
@@ -130,12 +135,13 @@ button{
 
 <body>
 
-<audio id="bgm" autoplay loop>
+<!-- AUDIO (WILL START ON FIRST CLICK + AUTO LOOP) -->
+<audio id="bgm" loop>
   <source src="song.mp3" type="audio/mp3">
 </audio>
 
 <script>
-// Floating hearts
+// -------- HEARTS --------
 function createHeart(){
   let h=document.createElement("div");
   h.innerHTML="💗";
@@ -145,9 +151,26 @@ function createHeart(){
   setTimeout(()=>h.remove(),7000);
 }
 setInterval(createHeart,500);
+
+// -------- AUTO PLAY SCENES --------
+const scenes = document.querySelectorAll("section");
+let current = 0;
+
+// Show next scene every 18 seconds
+setInterval(()=>{
+  scenes[current].style.display="none";
+  current = (current + 1) % scenes.length;
+  scenes[current].style.display="flex";
+},18000);
+
+// -------- AUDIO FIX (VERY IMPORTANT) --------
+// Browsers block autoplay until user clicks once
+document.body.addEventListener("click",()=>{
+  document.getElementById("bgm").play();
+},{once:true});
 </script>
 
-<!-- SCENE 1 -->
+<!-- ========== SCENE 1 ========== -->
 <section id="s1">
 <h2>✨ Our Beginning ✨</h2>
 <img src="her1.jpg" class="cine-img">
@@ -159,7 +182,7 @@ and suddenly, everything felt brighter.
 </p>
 </section>
 
-<!-- SCENE 2 (JPEG VIDEO MOMENT) -->
+<!-- ========== SCENE 2 ========== -->
 <section id="s2">
 <h2>🎬 The Moment That Changed Everything</h2>
 <img src="yourvideo.jpg" class="memory">
@@ -169,7 +192,7 @@ Your voice echoed in my heart so deeply that it still stays with me. 💕
 </p>
 </section>
 
-<!-- SCENE 3 -->
+<!-- ========== SCENE 3 ========== -->
 <section id="s3">
 <h2>💞 You Became My World</h2>
 <img src="her2.jpg" class="cine-img">
@@ -179,7 +202,7 @@ You became my love, my life, my peace, my happiness. 💖
 </p>
 </section>
 
-<!-- SCENE 4 -->
+<!-- ========== SCENE 4 ========== -->
 <section id="s4">
 <h2>🤍 My Promises</h2>
 <p>
@@ -189,7 +212,7 @@ We will build our beautiful home together 🏡💕
 </p>
 </section>
 
-<!-- SCENE 5 -->
+<!-- ========== SCENE 5 ========== -->
 <section id="s5">
 <h2>🖼️ Two Frames — You & Me</h2>
 <div class="frames">
@@ -208,7 +231,7 @@ but I’m waiting for the day we’ll be in the same one. 🤍
 </p>
 </section>
 
-<!-- SCENE 6 -->
+<!-- ========== SCENE 6 ========== -->
 <section id="s6">
 <h2>💓 Two Years Together</h2>
 <div class="slideshow">
@@ -232,7 +255,7 @@ setInterval(()=>{
 },2800);
 </script>
 
-<!-- FINAL SCENE -->
+<!-- ========== FINAL SCENE ========== -->
 <section id="s7">
 <img src="joint.jpg" class="cine-img">
 <h1>💍 Will You Be My Valentine? 💍</h1>
@@ -250,7 +273,7 @@ document.getElementById("no").addEventListener("mouseover",()=>{
   document.getElementById("no").style.left = Math.random()*200+"px";
 });
 
-// Fireworks + final line
+// Show final message on YES
 document.getElementById("yes").addEventListener("click",()=>{
   document.getElementById("fireworks").style.display="block";
   document.getElementById("final-line").style.display="block";
