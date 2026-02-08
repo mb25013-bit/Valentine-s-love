@@ -11,9 +11,31 @@ html,body{
     background:linear-gradient(180deg,#ffdde9,#ffd1e3,#ffb6d6);
     font-family:'Georgia',serif;
     color:#4a0b2e;
+    overflow:hidden;
 }
 
-/* ---------- CORE SLIDESHOW LAYOUT ---------- */
+/* ---------- FLOATING HEARTS BACKGROUND ---------- */
+.heart{
+    position:fixed;
+    bottom:-50px;
+    font-size:28px;
+    animation: floatUp 7s linear infinite;
+    opacity:0.8;
+    pointer-events:none;
+}
+
+@keyframes floatUp{
+    from{
+        transform:translateY(0) translateX(0) scale(1);
+        opacity:1;
+    }
+    to{
+        transform:translateY(-110vh) translateX(30px) scale(1.2);
+        opacity:0;
+    }
+}
+
+/* ---------- SLIDESHOW STAGE ---------- */
 #stage{
     position:fixed;
     top:0; left:0;
@@ -34,13 +56,13 @@ html,body{
     justify-content:center;
     text-align:center;
     opacity:0;
-    transition:opacity 1.5s ease-in-out;
+    transition:opacity 1.8s ease-in-out;
 }
 
-/* first slide visible */
+/* First slide visible */
 .slide.active{ opacity:1; }
 
-/* ---------- IMAGES ---------- */
+/* ---------- IMAGES (THIS FIXES LOADING ISSUES) ---------- */
 .cine-img{
     max-width:340px;
     border-radius:18px;
@@ -111,7 +133,7 @@ button{
 
 <body>
 
-<!-- ====== MUSIC (FIXED) ====== -->
+<!-- ====== MUSIC (WILL PLAY AFTER 1 CLICK) ====== -->
 <audio id="bgm" loop>
   <source src="song.mp3" type="audio/mp3">
 </audio>
@@ -124,8 +146,7 @@ button{
 <h2>✨ Our Beginning ✨</h2>
 <img src="her1.jpg" class="cine-img">
 <p>
-“Some stories begin with a glance… ours began with magic.” 💫<br><br>
-I didn’t know then that my life was about to change forever.
+“Some stories begin with a glance… ours began with magic.” 💫
 </p>
 </div>
 
@@ -169,16 +190,16 @@ We will build our beautiful home together 🏡💕
 <p>Waiting for the day we are in the same frame 🤍</p>
 </div>
 
-<!-- SLIDE 6 -->
+<!-- SLIDE 6 (ROTATING SLIDESHOW) -->
 <div class="slide">
 <h2>💓 Two Years Together</h2>
-<img src="c1.jpg" class="cine-img" id="sl1">
+<img src="c1.jpeg" class="cine-img" id="sl1">
 <p>Two beautiful years of love 💞</p>
 </div>
 
 <!-- FINAL SLIDE -->
 <div class="slide">
-<img src="joint.jpg" class="cine-img">
+<img src="joint.jpeg" class="cine-img">
 <h1>💍 Will You Be My Valentine? 💍</h1>
 
 <button id="yes">YES 💖</button>
@@ -191,6 +212,18 @@ We will build our beautiful home together 🏡💕
 </div> <!-- end stage -->
 
 <script>
+// ======= FLOATING HEARTS BACKGROUND =======
+function createHeart(){
+  let h=document.createElement("div");
+  h.innerHTML="💗";
+  h.className="heart";
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize = (20 + Math.random()*20) + "px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+}
+setInterval(createHeart,500);
+
 // ======= TRUE AUTO SLIDESHOW =======
 const slides = document.querySelectorAll(".slide");
 let index = 0;
@@ -199,12 +232,20 @@ setInterval(()=>{
   slides[index].classList.remove("active");
   index = (index + 1) % slides.length;
   slides[index].classList.add("active");
-}, 15000);   // change every 15 seconds
+}, 15000);
 
-// ======= MUSIC FIX (VERY IMPORTANT) =======
+// ======= MUSIC FIX =======
 document.body.addEventListener("click",()=>{
   document.getElementById("bgm").play();
 },{once:true});
+
+// ======= ROTATING c1, c2, c3 =======
+let pics = ["c1.jpeg","c2.jpeg","c3.jpeg"];
+let i = 0;
+setInterval(()=>{
+  document.getElementById("sl1").src = pics[i];
+  i = (i + 1) % pics.length;
+},3000);
 
 // ======= RUN-AWAY NO BUTTON =======
 document.getElementById("no").addEventListener("mouseover",()=>{
