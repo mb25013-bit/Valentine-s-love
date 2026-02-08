@@ -14,7 +14,7 @@ html,body{
     overflow:hidden;
 }
 
-/* ---------- FLOATING HEARTS BACKGROUND ---------- */
+/* -------- FLOATING HEARTS -------- */
 .heart{
     position:fixed;
     bottom:-50px;
@@ -30,12 +30,12 @@ html,body{
         opacity:1;
     }
     to{
-        transform:translateY(-110vh) translateX(30px) scale(1.2);
+        transform:translateY(-110vh) translateX(40px) scale(1.2);
         opacity:0;
     }
 }
 
-/* ---------- SLIDESHOW STAGE ---------- */
+/* -------- SLIDESHOW STAGE -------- */
 #stage{
     position:fixed;
     top:0; left:0;
@@ -59,10 +59,9 @@ html,body{
     transition:opacity 1.8s ease-in-out;
 }
 
-/* First slide visible */
 .slide.active{ opacity:1; }
 
-/* ---------- IMAGES (THIS FIXES LOADING ISSUES) ---------- */
+/* -------- IMAGES -------- */
 .cine-img{
     max-width:340px;
     border-radius:18px;
@@ -86,10 +85,10 @@ html,body{
 }
 @keyframes slowPan{
   from{transform:scale(1) translateX(0);}
-  to{transform:scale(1.03) translateX(10px);}
+  to{transform:scale(1.03) translateX(15px);}
 }
 
-/* ---------- TWO FRAMES ---------- */
+/* -------- TWO FRAMES -------- */
 .frames{
     display:flex;
     gap:30px;
@@ -101,7 +100,7 @@ html,body{
     padding:10px;
 }
 
-/* ---------- BUTTONS ---------- */
+/* -------- BUTTONS -------- */
 button{
     padding:15px 40px;
     font-size:20px;
@@ -110,6 +109,7 @@ button{
     cursor:pointer;
     margin:10px;
 }
+
 #yes{
     background:#ff4081;
     color:white;
@@ -120,31 +120,33 @@ button{
   50%{transform:scale(1.05);}
   100%{transform:scale(1);}
 }
+
 #no{
     background:#333;
     color:white;
     position:relative;
+    transition: all 0.05s ease-out; /* makes it run FAST */
 }
 
-/* ---------- FINAL TEXT ---------- */
+/* -------- FINAL TEXT -------- */
 #fireworks,#final-line{ display:none; }
 </style>
 </head>
 
 <body>
 
-<!-- ====== MUSIC (WILL PLAY AFTER 1 CLICK) ====== -->
+<!-- ===== MUSIC ===== -->
 <audio id="bgm" loop>
   <source src="song.mp3" type="audio/mp3">
 </audio>
 
-<!-- ====== SLIDESHOW CONTAINER ====== -->
+<!-- ===== SLIDESHOW CONTAINER ===== -->
 <div id="stage">
 
 <!-- SLIDE 1 -->
 <div class="slide active">
 <h2>✨ Our Beginning ✨</h2>
-<img src="her1.jpg" class="cine-img">
+<img src="her1.jpeg" class="cine-img">
 <p>
 “Some stories begin with a glance… ours began with magic.” 💫
 </p>
@@ -162,7 +164,7 @@ Your voice echoed in my heart so deeply that it still stays with me. 💕
 <!-- SLIDE 3 -->
 <div class="slide">
 <h2>💞 You Became My World</h2>
-<img src="her2.jpg" class="cine-img">
+<img src="her2.jpeg" class="cine-img">
 <p>You became my love, my life, my peace, my happiness. 💖</p>
 </div>
 
@@ -180,17 +182,17 @@ We will build our beautiful home together 🏡💕
 <div class="frames">
   <div class="frame">
     <h3>This is YOU 💗</h3>
-    <img src="her.jpg" class="cine-img">
+    <img src="her.jpeg" class="cine-img">
   </div>
   <div class="frame">
     <h3>This is ME 💙</h3>
-    <img src="you.jpg" class="cine-img">
+    <img src="you.jpeg" class="cine-img">
   </div>
 </div>
 <p>Waiting for the day we are in the same frame 🤍</p>
 </div>
 
-<!-- SLIDE 6 (ROTATING SLIDESHOW) -->
+<!-- SLIDE 6 -->
 <div class="slide">
 <h2>💓 Two Years Together</h2>
 <img src="c1.jpeg" class="cine-img" id="sl1">
@@ -212,7 +214,7 @@ We will build our beautiful home together 🏡💕
 </div> <!-- end stage -->
 
 <script>
-// ======= FLOATING HEARTS BACKGROUND =======
+// ===== FLOATING HEARTS =====
 function createHeart(){
   let h=document.createElement("div");
   h.innerHTML="💗";
@@ -224,7 +226,7 @@ function createHeart(){
 }
 setInterval(createHeart,500);
 
-// ======= TRUE AUTO SLIDESHOW =======
+// ===== AUTO SLIDESHOW =====
 const slides = document.querySelectorAll(".slide");
 let index = 0;
 
@@ -234,12 +236,12 @@ setInterval(()=>{
   slides[index].classList.add("active");
 }, 15000);
 
-// ======= MUSIC FIX =======
+// ===== MUSIC FIX (CLICK ONCE) =====
 document.body.addEventListener("click",()=>{
   document.getElementById("bgm").play();
 },{once:true});
 
-// ======= ROTATING c1, c2, c3 =======
+// ===== ROTATING c1, c2, c3 =====
 let pics = ["c1.jpeg","c2.jpeg","c3.jpeg"];
 let i = 0;
 setInterval(()=>{
@@ -247,12 +249,13 @@ setInterval(()=>{
   i = (i + 1) % pics.length;
 },3000);
 
-// ======= RUN-AWAY NO BUTTON =======
+// ===== FAST RUN-AWAY NO BUTTON =====
 document.getElementById("no").addEventListener("mouseover",()=>{
-  document.getElementById("no").style.left = Math.random()*200+"px";
+  document.getElementById("no").style.left = (Math.random()*350 - 175) + "px";
+  document.getElementById("no").style.top = (Math.random()*200 - 100) + "px";
 });
 
-// ======= FINAL MESSAGE =======
+// ===== FINAL MESSAGE =====
 document.getElementById("yes").addEventListener("click",()=>{
   document.getElementById("fireworks").style.display="block";
   document.getElementById("final-line").style.display="block";
