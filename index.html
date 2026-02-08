@@ -7,89 +7,79 @@
 <style>
 html,body{
     margin:0;
-    padding:0;
+    height:100%;
     background:linear-gradient(180deg,#ffdde9,#ffd1e3,#ffb6d6);
-    font-family: 'Georgia', serif;
+    font-family:'Georgia',serif;
     color:#4a0b2e;
-    text-align:center;
 }
 
-section{
-    min-height:100vh;
-    padding:60px 20px;
-    display:none;            /* all hidden by default */
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-}
-
-/* First scene visible */
-#s1{ display:flex; }
-
-/* Floating hearts */
-.heart{
+/* ---------- CORE SLIDESHOW LAYOUT ---------- */
+#stage{
     position:fixed;
-    top:-50px;
-    font-size:30px;
-    animation:fall 7s linear infinite;
-    z-index:-1;
-}
-@keyframes fall{
-    to{transform:translateY(110vh);}
+    top:0; left:0;
+    width:100vw;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
-/* Cinematic images */
+.slide{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    opacity:0;
+    transition:opacity 1.5s ease-in-out;
+}
+
+/* first slide visible */
+.slide.active{ opacity:1; }
+
+/* ---------- IMAGES ---------- */
 .cine-img{
     max-width:340px;
     border-radius:18px;
     border:3px solid hotpink;
     box-shadow:0 0 30px rgba(255,105,180,0.8);
-    animation: slowZoom 10s infinite alternate;
+    animation:slowZoom 10s infinite alternate;
+}
+
+.memory{
+    width:600px;
+    max-width:90%;
+    border-radius:18px;
+    border:3px solid hotpink;
+    box-shadow:0 0 30px rgba(255,105,180,0.8);
+    animation:slowPan 12s infinite alternate;
 }
 
 @keyframes slowZoom{
   from{transform:scale(1);}
   to{transform:scale(1.05);}
 }
-
-/* Your “video moment” JPEG */
-.memory{
-  width:600px;
-  max-width:90%;
-  border-radius:18px;
-  border:3px solid hotpink;
-  box-shadow:0 0 30px rgba(255,105,180,0.8);
-  animation: slowPan 12s infinite alternate;
-}
-
 @keyframes slowPan{
   from{transform:scale(1) translateX(0);}
   to{transform:scale(1.03) translateX(10px);}
 }
 
-/* Two frames */
+/* ---------- TWO FRAMES ---------- */
 .frames{
     display:flex;
-    gap:40px;
-    margin-top:20px;
+    gap:30px;
     flex-wrap:wrap;
     justify-content:center;
 }
 .frame{
     border:3px solid hotpink;
-    padding:15px;
-    box-shadow:0 0 20px rgba(255,105,180,0.6);
+    padding:10px;
 }
 
-/* Slideshow */
-.slideshow img{
-    display:none;
-    max-width:360px;
-    border-radius:15px;
-    box-shadow:0 0 25px rgba(255,105,180,0.8);
-}
-
-/* Buttons */
+/* ---------- BUTTONS ---------- */
 button{
     padding:15px 40px;
     font-size:20px;
@@ -108,112 +98,63 @@ button{
   50%{transform:scale(1.05);}
   100%{transform:scale(1);}
 }
-
 #no{
     background:#333;
     color:white;
     position:relative;
 }
 
-/* Final message */
-#fireworks{
-    display:none;
-    font-size:40px;
-    color:#ff007f;
-    margin-top:20px;
-}
-
-#final-line{
-    display:none;
-    font-size:28px;
-    margin-top:20px;
-    color:#b00060;
-    font-weight:bold;
-}
+/* ---------- FINAL TEXT ---------- */
+#fireworks,#final-line{ display:none; }
 </style>
 </head>
 
 <body>
 
-<!-- AUDIO (WILL START ON FIRST CLICK + AUTO LOOP) -->
+<!-- ====== MUSIC (FIXED) ====== -->
 <audio id="bgm" loop>
   <source src="song.mp3" type="audio/mp3">
 </audio>
 
-<script>
-// -------- HEARTS --------
-function createHeart(){
-  let h=document.createElement("div");
-  h.innerHTML="💗";
-  h.className="heart";
-  h.style.left=Math.random()*100+"vw";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),7000);
-}
-setInterval(createHeart,500);
+<!-- ====== SLIDESHOW CONTAINER ====== -->
+<div id="stage">
 
-// -------- AUTO PLAY SCENES --------
-const scenes = document.querySelectorAll("section");
-let current = 0;
-
-// Show next scene every 18 seconds
-setInterval(()=>{
-  scenes[current].style.display="none";
-  current = (current + 1) % scenes.length;
-  scenes[current].style.display="flex";
-},18000);
-
-// -------- AUDIO FIX (VERY IMPORTANT) --------
-// Browsers block autoplay until user clicks once
-document.body.addEventListener("click",()=>{
-  document.getElementById("bgm").play();
-},{once:true});
-</script>
-
-<!-- ========== SCENE 1 ========== -->
-<section id="s1">
+<!-- SLIDE 1 -->
+<div class="slide active">
 <h2>✨ Our Beginning ✨</h2>
 <img src="her1.jpg" class="cine-img">
 <p>
 “Some stories begin with a glance… ours began with magic.” 💫<br><br>
-I didn’t know then that my life was about to change forever.<br>
-One conversation, one smile, one moment —<br>
-and suddenly, everything felt brighter.
+I didn’t know then that my life was about to change forever.
 </p>
-</section>
+</div>
 
-<!-- ========== SCENE 2 ========== -->
-<section id="s2">
+<!-- SLIDE 2 -->
+<div class="slide">
 <h2>🎬 The Moment That Changed Everything</h2>
 <img src="yourvideo.jpg" class="memory">
 <p>
-This is the moment where it all truly began for me.<br>
 Your voice echoed in my heart so deeply that it still stays with me. 💕
 </p>
-</section>
+</div>
 
-<!-- ========== SCENE 3 ========== -->
-<section id="s3">
+<!-- SLIDE 3 -->
+<div class="slide">
 <h2>💞 You Became My World</h2>
 <img src="her2.jpg" class="cine-img">
-<p>
-From that very moment, my life was never the same again.<br><br>
-You became my love, my life, my peace, my happiness. 💖
-</p>
-</section>
+<p>You became my love, my life, my peace, my happiness. 💖</p>
+</div>
 
-<!-- ========== SCENE 4 ========== -->
-<section id="s4">
+<!-- SLIDE 4 -->
+<div class="slide">
 <h2>🤍 My Promises</h2>
 <p>
-I know I mostly said “I will do this, I will do that”…<br>
-but trust me — I mean every word.<br><br>
 We will build our beautiful home together 🏡💕
 </p>
-</section>
+</div>
 
-<!-- ========== SCENE 5 ========== -->
-<section id="s5">
+<!-- SLIDE 5 -->
+<div class="slide">
 <h2>🖼️ Two Frames — You & Me</h2>
 <div class="frames">
   <div class="frame">
@@ -225,38 +166,18 @@ We will build our beautiful home together 🏡💕
     <img src="you.jpg" class="cine-img">
   </div>
 </div>
-<p>
-Right now we are in two different frames…<br>
-but I’m waiting for the day we’ll be in the same one. 🤍
-</p>
-</section>
-
-<!-- ========== SCENE 6 ========== -->
-<section id="s6">
-<h2>💓 Two Years Together</h2>
-<div class="slideshow">
-  <img src="c1.jpg">
-  <img src="c2.jpg">
-  <img src="c3.jpg">
+<p>Waiting for the day we are in the same frame 🤍</p>
 </div>
-<p>
-Two beautiful years of love, memories, and growing together. 💞
-</p>
-</section>
 
-<script>
-// Slideshow
-let pics=document.querySelectorAll(".slideshow img");
-let i=0;
-setInterval(()=>{
-  pics.forEach(p=>p.style.display="none");
-  pics[i].style.display="block";
-  i=(i+1)%pics.length;
-},2800);
-</script>
+<!-- SLIDE 6 -->
+<div class="slide">
+<h2>💓 Two Years Together</h2>
+<img src="c1.jpg" class="cine-img" id="sl1">
+<p>Two beautiful years of love 💞</p>
+</div>
 
-<!-- ========== FINAL SCENE ========== -->
-<section id="s7">
+<!-- FINAL SLIDE -->
+<div class="slide">
 <img src="joint.jpg" class="cine-img">
 <h1>💍 Will You Be My Valentine? 💍</h1>
 
@@ -265,15 +186,32 @@ setInterval(()=>{
 
 <div id="fireworks">🎆 SHE SAID YES 🎆</div>
 <div id="final-line">💗 Varun loves Somii in every universe 💗</div>
-</section>
+</div>
+
+</div> <!-- end stage -->
 
 <script>
-// Run-away NO button
+// ======= TRUE AUTO SLIDESHOW =======
+const slides = document.querySelectorAll(".slide");
+let index = 0;
+
+setInterval(()=>{
+  slides[index].classList.remove("active");
+  index = (index + 1) % slides.length;
+  slides[index].classList.add("active");
+}, 15000);   // change every 15 seconds
+
+// ======= MUSIC FIX (VERY IMPORTANT) =======
+document.body.addEventListener("click",()=>{
+  document.getElementById("bgm").play();
+},{once:true});
+
+// ======= RUN-AWAY NO BUTTON =======
 document.getElementById("no").addEventListener("mouseover",()=>{
   document.getElementById("no").style.left = Math.random()*200+"px";
 });
 
-// Show final message on YES
+// ======= FINAL MESSAGE =======
 document.getElementById("yes").addEventListener("click",()=>{
   document.getElementById("fireworks").style.display="block";
   document.getElementById("final-line").style.display="block";
