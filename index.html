@@ -14,7 +14,7 @@ html,body{
     overflow:hidden;
 }
 
-/* floating hearts */
+/* -------- FLOATING HEARTS -------- */
 .heart{
     position:fixed;
     bottom:-50px;
@@ -28,7 +28,7 @@ html,body{
     to{transform:translateY(-110vh) translateX(40px) scale(1.2);opacity:0;}
 }
 
-/* slideshow stage */
+/* -------- SLIDESHOW STAGE -------- */
 #stage{
     position:fixed;
     top:0; left:0;
@@ -54,7 +54,7 @@ html,body{
 
 .slide.active{ opacity:1; }
 
-/* images */
+/* -------- IMAGES -------- */
 .cine-img{
     max-width:340px;
     border-radius:18px;
@@ -62,7 +62,7 @@ html,body{
     box-shadow:0 0 30px rgba(255,105,180,0.8);
 }
 
-/* video */
+/* -------- VIDEO -------- */
 video{
     width:600px;
     max-width:90%;
@@ -70,7 +70,7 @@ video{
     border:3px solid hotpink;
 }
 
-/* two frames */
+/* -------- TWO FRAMES -------- */
 .frames{
     display:flex;
     gap:30px;
@@ -82,7 +82,7 @@ video{
     padding:10px;
 }
 
-/* buttons */
+/* -------- BUTTONS -------- */
 button{
     padding:15px 40px;
     font-size:20px;
@@ -100,7 +100,7 @@ button{
 
 <body>
 
-<!-- MUSIC (WILL START AFTER FIRST CLICK) -->
+<!-- MUSIC -->
 <audio id="bgm" loop>
   <source src="song.mp3" type="audio/mp3">
 </audio>
@@ -117,7 +117,7 @@ button{
 <!-- SLIDE 2 (VIDEO) -->
 <div class="slide">
 <h2>🎬 The Moment That Changed Everything</h2>
-<video id="v1" muted>
+<video id="v1" muted playsinline>
   <source src="yourvideo.mp4" type="video/mp4">
 </video>
 <p>Your voice stayed in my heart 💕</p>
@@ -174,18 +174,20 @@ button{
 </div>
 
 <script>
-// HEARTS
-function createHeart(){
+// ========== RUN ONLY AFTER PAGE LOAD ==========
+document.addEventListener("DOMContentLoaded", function(){
+
+// ---- floating hearts ----
+setInterval(()=>{
   let h=document.createElement("div");
   h.innerHTML="💗";
   h.className="heart";
   h.style.left=Math.random()*100+"vw";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),7000);
-}
-setInterval(createHeart,500);
+},500);
 
-// SLIDESHOW (will NOT stop)
+// ---- slideshow ----
 const slides = document.querySelectorAll(".slide");
 let index = 0;
 
@@ -194,23 +196,18 @@ setInterval(()=>{
   index = (index + 1) % slides.length;
   slides[index].classList.add("active");
 
-  // pause video when leaving slide 2
-  document.getElementById("v1").pause();
+  // control video
+  const vid = document.getElementById("v1");
+  vid.pause();
+  vid.currentTime = 0;
 
-  // if coming back to video slide, restart muted
   if(index === 1){
-    document.getElementById("v1").currentTime = 0;
-    document.getElementById("v1").play().catch(()=>{});
+    vid.play().catch(()=>{});
   }
 
-},15000);
+}, 15000);
 
-// MUSIC UNLOCK (most reliable way)
-document.addEventListener("click",()=>{
-  document.getElementById("bgm").play();
-},{once:true});
-
-// ROTATE c1,c2,c3
+// ---- rotate c1,c2,c3 ----
 let pics = ["c1.jpeg","c2.jpeg","c3.jpeg"];
 let i = 0;
 setInterval(()=>{
@@ -218,17 +215,27 @@ setInterval(()=>{
   i = (i + 1) % pics.length;
 },3000);
 
-// FAST NO BUTTON
+// ---- audio unlock (MOST RELIABLE WAY) ----
+const audio = document.getElementById("bgm");
+["click","touchstart"].forEach(evt=>{
+  document.addEventListener(evt, ()=>{
+    audio.play().catch(()=>{});
+  }, { once: true });
+});
+
+// ---- runaway NO button ----
 document.getElementById("no").addEventListener("mouseover",()=>{
   document.getElementById("no").style.left = (Math.random()*350 - 175) + "px";
   document.getElementById("no").style.top = (Math.random()*200 - 100) + "px";
 });
 
-// FINAL MESSAGE
+// ---- final message ----
 document.getElementById("yes").addEventListener("click",()=>{
   document.getElementById("fireworks").style.display="block";
   document.getElementById("final-line").style.display="block";
 });
+
+}); // end DOMContentLoaded
 </script>
 
 </body>
