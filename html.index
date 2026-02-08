@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Our Valentine Story 💗</title>
+
+<style>
+html,body{
+    margin:0;
+    padding:0;
+    background:linear-gradient(180deg,#ffdde9,#ffd1e3,#ffb6d6);
+    font-family: 'Georgia', serif;
+    color:#4a0b2e;
+    text-align:center;
+    scroll-behavior:smooth;
+}
+
+section{
+    min-height:100vh;
+    padding:60px 20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Floating hearts */
+.heart{
+    position:fixed;
+    top:-50px;
+    font-size:30px;
+    animation:fall 7s linear infinite;
+    z-index:-1;
+}
+@keyframes fall{
+    to{transform:translateY(110vh);}
+}
+
+/* Cinematic image style */
+.cine-img{
+    max-width:340px;
+    border-radius:18px;
+    border:3px solid hotpink;
+    box-shadow:0 0 30px rgba(255,105,180,0.8);
+    animation: slowZoom 10s infinite alternate;
+}
+
+@keyframes slowZoom{
+  from{transform:scale(1);}
+  to{transform:scale(1.05);}
+}
+
+/* Memory (your jpeg video moment) */
+.memory{
+  width:600px;
+  border-radius:18px;
+  border:3px solid hotpink;
+  box-shadow:0 0 30px rgba(255,105,180,0.8);
+  animation: slowPan 12s infinite alternate;
+}
+
+@keyframes slowPan{
+  from{transform:scale(1) translateX(0);}
+  to{transform:scale(1.03) translateX(10px);}
+}
+
+/* Frames scene */
+.frames{
+    display:flex;
+    gap:40px;
+    margin-top:20px;
+}
+.frame{
+    border:3px solid hotpink;
+    padding:15px;
+    box-shadow:0 0 20px rgba(255,105,180,0.6);
+}
+
+/* Slideshow */
+.slideshow img{
+    display:none;
+    max-width:360px;
+    border-radius:15px;
+    box-shadow:0 0 25px rgba(255,105,180,0.8);
+}
+
+/* Buttons */
+button{
+    padding:15px 40px;
+    font-size:20px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    margin:10px;
+}
+#yes{
+    background:#ff4081;
+    color:white;
+    animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.05);}
+  100%{transform:scale(1);}
+}
+
+#no{
+    background:#333;
+    color:white;
+    position:relative;
+}
+
+/* Fireworks + final message */
+#fireworks{
+    display:none;
+    font-size:40px;
+    color:#ff007f;
+    margin-top:20px;
+}
+
+#final-line{
+    display:none;
+    font-size:28px;
+    margin-top:20px;
+    color:#b00060;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgm" autoplay loop>
+  <source src="song.mp3" type="audio/mp3">
+</audio>
+
+<script>
+// Floating hearts
+function createHeart(){
+  let h=document.createElement("div");
+  h.innerHTML="💗";
+  h.className="heart";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+}
+setInterval(createHeart,500);
+</script>
+
+<!-- SCENE 1 -->
+<section id="s1">
+<h2>✨ Our Beginning ✨</h2>
+<img src="her1.jpg" class="cine-img">
+<p>
+“Some stories begin with a glance… ours began with magic.” 💫<br><br>
+I didn’t know then that my life was about to change forever.<br>
+One conversation, one smile, one moment —<br>
+and suddenly, everything felt brighter.
+</p>
+</section>
+
+<!-- SCENE 2 (JPEG VIDEO MOMENT) -->
+<section id="s2">
+<h2>🎬 The Moment That Changed Everything</h2>
+<img src="yourvideo.jpg" class="memory">
+<p>
+This is the moment where it all truly began for me.<br>
+Your voice echoed in my heart so deeply that it still stays with me. 💕
+</p>
+</section>
+
+<!-- SCENE 3 -->
+<section id="s3">
+<h2>💞 You Became My World</h2>
+<img src="her2.jpg" class="cine-img">
+<p>
+From that very moment, my life was never the same again.<br><br>
+You became my love, my life, my peace, my happiness. 💖
+</p>
+</section>
+
+<!-- SCENE 4 -->
+<section id="s4">
+<h2>🤍 My Promises</h2>
+<p>
+I know I mostly said “I will do this, I will do that”…<br>
+but trust me — I mean every word.<br><br>
+We will build our beautiful home together 🏡💕
+</p>
+</section>
+
+<!-- SCENE 5 -->
+<section id="s5">
+<h2>🖼️ Two Frames — You & Me</h2>
+<div class="frames">
+  <div class="frame">
+    <h3>This is YOU 💗</h3>
+    <img src="her.jpg" class="cine-img">
+  </div>
+  <div class="frame">
+    <h3>This is ME 💙</h3>
+    <img src="you.jpg" class="cine-img">
+  </div>
+</div>
+<p>
+Right now we are in two different frames…<br>
+but I’m waiting for the day we’ll be in the same one. 🤍
+</p>
+</section>
+
+<!-- SCENE 6 -->
+<section id="s6">
+<h2>💓 Two Years Together</h2>
+<div class="slideshow">
+  <img src="c1.jpg">
+  <img src="c2.jpg">
+  <img src="c3.jpg">
+</div>
+<p>
+Two beautiful years of love, memories, and growing together. 💞
+</p>
+</section>
+
+<script>
+// Slideshow
+let pics=document.querySelectorAll(".slideshow img");
+let i=0;
+setInterval(()=>{
+  pics.forEach(p=>p.style.display="none");
+  pics[i].style.display="block";
+  i=(i+1)%pics.length;
+},2800);
+</script>
+
+<!-- FINAL SCENE -->
+<section id="s7">
+<img src="joint.jpg" class="cine-img">
+<h1>💍 Will You Be My Valentine? 💍</h1>
+
+<button id="yes">YES 💖</button>
+<button id="no">NO ❌</button>
+
+<div id="fireworks">🎆 SHE SAID YES 🎆</div>
+<div id="final-line">💗 Varun loves Somii in every universe 💗</div>
+</section>
+
+<script>
+// Run-away NO button
+document.getElementById("no").addEventListener("mouseover",()=>{
+  document.getElementById("no").style.left = Math.random()*200+"px";
+});
+
+// Fireworks + final line
+document.getElementById("yes").addEventListener("click",()=>{
+  document.getElementById("fireworks").style.display="block";
+  document.getElementById("final-line").style.display="block";
+});
+</script>
+
+</body>
+</html>
