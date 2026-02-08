@@ -2,16 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Valentine Test 💗</title>
+<title>Our Valentine Story 💗</title>
 
 <style>
 html,body{
   margin:0;
   height:100%;
-  background:pink;
+  background:linear-gradient(180deg,#ffdde9,#ffd1e3,#ffb6d6);
+  font-family:'Georgia',serif;
+  color:#4a0b2e;
   overflow:hidden;
 }
 
+/* ---------- STAGE ---------- */
 #stage{
   position:fixed;
   top:0; left:0;
@@ -32,39 +35,144 @@ html,body{
   justify-content:center;
   text-align:center;
   opacity:0;
-  transition:opacity 1.5s;
+  transition:opacity 1.5s ease-in-out;
 }
 
 .slide.active{ opacity:1; }
 
-img{
-  max-width:300px;
+/* ---------- IMAGES ---------- */
+.cine-img{
+  max-width:340px;
+  border-radius:18px;
   border:3px solid hotpink;
+  box-shadow:0 0 30px rgba(255,105,180,0.8);
+}
+
+/* ---------- VIDEO ---------- */
+video{
+  width:600px;
+  max-width:90%;
+  border-radius:18px;
+  border:3px solid hotpink;
+}
+
+/* ---------- TWO FRAMES ---------- */
+.frames{
+  display:flex;
+  gap:30px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.frame{
+  border:3px solid hotpink;
+  padding:10px;
+}
+
+/* ---------- BUTTONS ---------- */
+button{
+  padding:15px 40px;
+  font-size:20px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  margin:10px;
+}
+#yes{background:#ff4081;color:white;}
+#no{background:#333;color:white;position:relative;}
+
+/* ---------- FINAL TEXT ---------- */
+#fireworks,#final-line{ display:none; }
+
+/* ---------- FLOATING HEARTS ---------- */
+.heart{
+  position:fixed;
+  bottom:-50px;
+  font-size:28px;
+  animation: floatUp 7s linear infinite;
+  opacity:0.8;
+  pointer-events:none;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(0) translateX(0) scale(1);opacity:1;}
+  to{transform:translateY(-110vh) translateX(40px) scale(1.2);opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
+<!-- MUSIC -->
 <audio id="bgm" loop>
   <source src="song.mp3" type="audio/mp3">
 </audio>
 
 <div id="stage">
 
+<!-- SLIDE 1 -->
 <div class="slide active">
-<h2>Scene 1</h2>
-<img src="her1.jpeg">
+<h2>✨ Our Beginning ✨</h2>
+<img src="her1.jpeg" class="cine-img">
+<p>
+“Some stories begin with a glance… ours began with magic.” 💫
+</p>
 </div>
 
+<!-- SLIDE 2 (VIDEO) -->
 <div class="slide">
-<h2>Scene 2</h2>
-<img src="her2.jpeg">
+<h2>🎬 The Moment That Changed Everything</h2>
+<video id="v1" muted playsinline>
+  <source src="yourvideo.mp4" type="video/mp4">
+</video>
+<p>Your voice stayed in my heart 💕</p>
 </div>
 
+<!-- SLIDE 3 -->
 <div class="slide">
-<h2>Scene 3</h2>
-<img src="her.jpeg">
+<h2>💞 You Became My World</h2>
+<img src="her2.jpeg" class="cine-img">
+<p>You became my love, my life, my peace 💖</p>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide">
+<h2>🤍 My Promises</h2>
+<p>We will build our beautiful home together 🏡💕</p>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide">
+<h2>🖼️ Two Frames — You & Me</h2>
+<div class="frames">
+  <div class="frame">
+    <h3>This is YOU 💗</h3>
+    <img src="her.jpeg" class="cine-img">
+  </div>
+  <div class="frame">
+    <h3>This is ME 💙</h3>
+    <img src="you.jpeg" class="cine-img">
+  </div>
+</div>
+<p>Waiting for the same frame 🤍</p>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide">
+<h2>💓 Two Years Together</h2>
+<img src="c1.jpeg" class="cine-img" id="sl1">
+<p>Two beautiful years 💞</p>
+</div>
+
+<!-- FINAL SLIDE -->
+<div class="slide">
+<img src="joint.jpeg" class="cine-img">
+<h1>💍 Will You Be My Valentine? 💍</h1>
+
+<button id="yes">YES 💖</button>
+<button id="no">NO ❌</button>
+
+<div id="fireworks">🎆 SHE SAID YES 🎆</div>
+<div id="final-line">💗 Varun loves Somii in every universe 💗</div>
 </div>
 
 </div>
@@ -72,7 +180,17 @@ img{
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
-// SLIDESHOW
+// ----- FLOATING HEARTS -----
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.innerHTML="💗";
+  h.className="heart";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+},500);
+
+// ----- SLIDESHOW -----
 const slides = document.querySelectorAll(".slide");
 let i = 0;
 
@@ -80,12 +198,42 @@ setInterval(()=>{
   slides[i].classList.remove("active");
   i = (i + 1) % slides.length;
   slides[i].classList.add("active");
-}, 5000);   // changes every 5 seconds
 
-// MUSIC UNLOCK
+  // control video
+  const vid = document.getElementById("v1");
+  vid.pause();
+  vid.currentTime = 0;
+
+  if(i === 1){
+    vid.play().catch(()=>{});
+  }
+
+}, 15000); // 15 seconds per slide
+
+// ----- ROTATE c1, c2, c3 -----
+let pics = ["c1.jpeg","c2.jpeg","c3.jpeg"];
+let j = 0;
+setInterval(()=>{
+  document.getElementById("sl1").src = pics[j];
+  j = (j + 1) % pics.length;
+}, 3000);
+
+// ----- MUSIC UNLOCK (click once) -----
 document.addEventListener("click", ()=>{
-  document.getElementById("bgm").play();
+  document.getElementById("bgm").play().catch(()=>{});
 }, {once:true});
+
+// ----- RUN-AWAY NO BUTTON -----
+document.getElementById("no").addEventListener("mouseover",()=>{
+  document.getElementById("no").style.left = (Math.random()*350 - 175) + "px";
+  document.getElementById("no").style.top = (Math.random()*200 - 100) + "px";
+});
+
+// ----- FINAL MESSAGE -----
+document.getElementById("yes").addEventListener("click",()=>{
+  document.getElementById("fireworks").style.display="block";
+  document.getElementById("final-line").style.display="block";
+});
 
 });
 </script>
