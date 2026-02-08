@@ -14,7 +14,7 @@ html,body{
     overflow:hidden;
 }
 
-/* -------- FLOATING HEARTS -------- */
+/* FLOATING HEARTS */
 .heart{
     position:fixed;
     bottom:-50px;
@@ -25,17 +25,11 @@ html,body{
 }
 
 @keyframes floatUp{
-    from{
-        transform:translateY(0) translateX(0) scale(1);
-        opacity:1;
-    }
-    to{
-        transform:translateY(-110vh) translateX(40px) scale(1.2);
-        opacity:0;
-    }
+    from{transform:translateY(0) translateX(0) scale(1);opacity:1;}
+    to{transform:translateY(-110vh) translateX(40px) scale(1.2);opacity:0;}
 }
 
-/* -------- SLIDESHOW STAGE -------- */
+/* SLIDESHOW STAGE */
 #stage{
     position:fixed;
     top:0; left:0;
@@ -61,34 +55,24 @@ html,body{
 
 .slide.active{ opacity:1; }
 
-/* -------- IMAGES -------- */
+/* IMAGES */
 .cine-img{
     max-width:340px;
     border-radius:18px;
     border:3px solid hotpink;
     box-shadow:0 0 30px rgba(255,105,180,0.8);
-    animation:slowZoom 10s infinite alternate;
 }
 
-.memory{
+/* VIDEO STYLE */
+video{
     width:600px;
     max-width:90%;
     border-radius:18px;
     border:3px solid hotpink;
     box-shadow:0 0 30px rgba(255,105,180,0.8);
-    animation:slowPan 12s infinite alternate;
 }
 
-@keyframes slowZoom{
-  from{transform:scale(1);}
-  to{transform:scale(1.05);}
-}
-@keyframes slowPan{
-  from{transform:scale(1) translateX(0);}
-  to{transform:scale(1.03) translateX(15px);}
-}
-
-/* -------- TWO FRAMES -------- */
+/* TWO FRAMES */
 .frames{
     display:flex;
     gap:30px;
@@ -100,7 +84,7 @@ html,body{
     padding:10px;
 }
 
-/* -------- BUTTONS -------- */
+/* BUTTONS */
 button{
     padding:15px 40px;
     font-size:20px;
@@ -113,154 +97,48 @@ button{
 #yes{
     background:#ff4081;
     color:white;
-    animation:pulse 1.5s infinite;
-}
-@keyframes pulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.05);}
-  100%{transform:scale(1);}
 }
 
 #no{
     background:#333;
     color:white;
     position:relative;
-    transition: all 0.05s ease-out; /* makes it run FAST */
+    transition: all 0.05s ease-out;
 }
 
-/* -------- FINAL TEXT -------- */
+/* FINAL TEXT */
 #fireworks,#final-line{ display:none; }
 </style>
 </head>
 
 <body>
 
-<!-- ===== MUSIC ===== -->
+<!-- MUSIC -->
 <audio id="bgm" loop>
   <source src="song.mp3" type="audio/mp3">
 </audio>
 
-<!-- ===== SLIDESHOW CONTAINER ===== -->
 <div id="stage">
 
 <!-- SLIDE 1 -->
 <div class="slide active">
 <h2>✨ Our Beginning ✨</h2>
 <img src="her1.jpeg" class="cine-img">
-<p>
-“Some stories begin with a glance… ours began with magic.” 💫
-</p>
+<p>Some stories begin with magic 💫</p>
 </div>
 
-<!-- SLIDE 2 -->
+<!-- SLIDE 2 (REAL VIDEO NOW) -->
 <div class="slide">
 <h2>🎬 The Moment That Changed Everything</h2>
-<img src="yourvideo.jpg" class="memory">
-<p>
-Your voice echoed in my heart so deeply that it still stays with me. 💕
-</p>
+<video controls autoplay muted>
+  <source src="yourvideo.mp4" type="video/mp4">
+</video>
+<p>Your voice stayed in my heart 💕</p>
 </div>
 
 <!-- SLIDE 3 -->
 <div class="slide">
 <h2>💞 You Became My World</h2>
 <img src="her2.jpeg" class="cine-img">
-<p>You became my love, my life, my peace, my happiness. 💖</p>
-</div>
-
-<!-- SLIDE 4 -->
-<div class="slide">
-<h2>🤍 My Promises</h2>
-<p>
-We will build our beautiful home together 🏡💕
-</p>
-</div>
-
-<!-- SLIDE 5 -->
-<div class="slide">
-<h2>🖼️ Two Frames — You & Me</h2>
-<div class="frames">
-  <div class="frame">
-    <h3>This is YOU 💗</h3>
-    <img src="her.jpeg" class="cine-img">
-  </div>
-  <div class="frame">
-    <h3>This is ME 💙</h3>
-    <img src="you.jpeg" class="cine-img">
-  </div>
-</div>
-<p>Waiting for the day we are in the same frame 🤍</p>
-</div>
-
-<!-- SLIDE 6 -->
-<div class="slide">
-<h2>💓 Two Years Together</h2>
-<img src="c1.jpeg" class="cine-img" id="sl1">
-<p>Two beautiful years of love 💞</p>
-</div>
-
-<!-- FINAL SLIDE -->
-<div class="slide">
-<img src="joint.jpeg" class="cine-img">
-<h1>💍 Will You Be My Valentine? 💍</h1>
-
-<button id="yes">YES 💖</button>
-<button id="no">NO ❌</button>
-
-<div id="fireworks">🎆 SHE SAID YES 🎆</div>
-<div id="final-line">💗 Varun loves Somii in every universe 💗</div>
-</div>
-
-</div> <!-- end stage -->
-
-<script>
-// ===== FLOATING HEARTS =====
-function createHeart(){
-  let h=document.createElement("div");
-  h.innerHTML="💗";
-  h.className="heart";
-  h.style.left=Math.random()*100+"vw";
-  h.style.fontSize = (20 + Math.random()*20) + "px";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),7000);
-}
-setInterval(createHeart,500);
-
-// ===== AUTO SLIDESHOW =====
-const slides = document.querySelectorAll(".slide");
-let index = 0;
-
-setInterval(()=>{
-  slides[index].classList.remove("active");
-  index = (index + 1) % slides.length;
-  slides[index].classList.add("active");
-}, 15000);
-
-// ===== MUSIC FIX (CLICK ONCE) =====
-document.body.addEventListener("click",()=>{
-  document.getElementById("bgm").play();
-},{once:true});
-
-// ===== ROTATING c1, c2, c3 =====
-let pics = ["c1.jpeg","c2.jpeg","c3.jpeg"];
-let i = 0;
-setInterval(()=>{
-  document.getElementById("sl1").src = pics[i];
-  i = (i + 1) % pics.length;
-},3000);
-
-// ===== FAST RUN-AWAY NO BUTTON =====
-document.getElementById("no").addEventListener("mouseover",()=>{
-  document.getElementById("no").style.left = (Math.random()*350 - 175) + "px";
-  document.getElementById("no").style.top = (Math.random()*200 - 100) + "px";
-});
-
-// ===== FINAL MESSAGE =====
-document.getElementById("yes").addEventListener("click",()=>{
-  document.getElementById("fireworks").style.display="block";
-  document.getElementById("final-line").style.display="block";
-});
-</script>
-
-</body>
-</html>
+<p>You are my love, my life, my peace 💖</p>
+<
