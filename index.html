@@ -14,7 +14,7 @@ html,body{
     overflow:hidden;
 }
 
-/* FLOATING HEARTS */
+/* floating hearts */
 .heart{
     position:fixed;
     bottom:-50px;
@@ -23,13 +23,12 @@ html,body{
     opacity:0.8;
     pointer-events:none;
 }
-
 @keyframes floatUp{
     from{transform:translateY(0) translateX(0) scale(1);opacity:1;}
     to{transform:translateY(-110vh) translateX(40px) scale(1.2);opacity:0;}
 }
 
-/* SLIDESHOW STAGE */
+/* slideshow stage */
 #stage{
     position:fixed;
     top:0; left:0;
@@ -50,12 +49,12 @@ html,body{
     justify-content:center;
     text-align:center;
     opacity:0;
-    transition:opacity 1.8s ease-in-out;
+    transition:opacity 1.5s ease-in-out;
 }
 
 .slide.active{ opacity:1; }
 
-/* IMAGES */
+/* images */
 .cine-img{
     max-width:340px;
     border-radius:18px;
@@ -63,16 +62,15 @@ html,body{
     box-shadow:0 0 30px rgba(255,105,180,0.8);
 }
 
-/* VIDEO STYLE */
+/* video */
 video{
     width:600px;
     max-width:90%;
     border-radius:18px;
     border:3px solid hotpink;
-    box-shadow:0 0 30px rgba(255,105,180,0.8);
 }
 
-/* TWO FRAMES */
+/* two frames */
 .frames{
     display:flex;
     gap:30px;
@@ -84,7 +82,7 @@ video{
     padding:10px;
 }
 
-/* BUTTONS */
+/* buttons */
 button{
     padding:15px 40px;
     font-size:20px;
@@ -93,27 +91,16 @@ button{
     cursor:pointer;
     margin:10px;
 }
+#yes{background:#ff4081;color:white;}
+#no{background:#333;color:white;position:relative;}
 
-#yes{
-    background:#ff4081;
-    color:white;
-}
-
-#no{
-    background:#333;
-    color:white;
-    position:relative;
-    transition: all 0.05s ease-out;
-}
-
-/* FINAL TEXT */
-#fireworks,#final-line{ display:none; }
+#fireworks,#final-line{display:none;}
 </style>
 </head>
 
 <body>
 
-<!-- MUSIC -->
+<!-- MUSIC (WILL START AFTER FIRST CLICK) -->
 <audio id="bgm" loop>
   <source src="song.mp3" type="audio/mp3">
 </audio>
@@ -127,10 +114,10 @@ button{
 <p>Some stories begin with magic 💫</p>
 </div>
 
-<!-- SLIDE 2 (REAL VIDEO NOW) -->
+<!-- SLIDE 2 (VIDEO) -->
 <div class="slide">
 <h2>🎬 The Moment That Changed Everything</h2>
-<video controls autoplay muted>
+<video id="v1" muted>
   <source src="yourvideo.mp4" type="video/mp4">
 </video>
 <p>Your voice stayed in my heart 💕</p>
@@ -141,4 +128,108 @@ button{
 <h2>💞 You Became My World</h2>
 <img src="her2.jpeg" class="cine-img">
 <p>You are my love, my life, my peace 💖</p>
-<
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide">
+<h2>🤍 My Promises</h2>
+<p>We will build our beautiful home 🏡💕</p>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide">
+<h2>🖼️ Two Frames — You & Me</h2>
+<div class="frames">
+  <div class="frame">
+    <h3>This is YOU 💗</h3>
+    <img src="her.jpeg" class="cine-img">
+  </div>
+  <div class="frame">
+    <h3>This is ME 💙</h3>
+    <img src="you.jpeg" class="cine-img">
+  </div>
+</div>
+<p>Waiting for the same frame 🤍</p>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide">
+<h2>💓 Two Years Together</h2>
+<img src="c1.jpeg" class="cine-img" id="sl1">
+<p>Two beautiful years 💞</p>
+</div>
+
+<!-- FINAL SLIDE -->
+<div class="slide">
+<img src="joint.jpeg" class="cine-img">
+<h1>💍 Will You Be My Valentine? 💍</h1>
+
+<button id="yes">YES 💖</button>
+<button id="no">NO ❌</button>
+
+<div id="fireworks">🎆 SHE SAID YES 🎆</div>
+<div id="final-line">💗 Varun loves Somii in every universe 💗</div>
+</div>
+
+</div>
+
+<script>
+// HEARTS
+function createHeart(){
+  let h=document.createElement("div");
+  h.innerHTML="💗";
+  h.className="heart";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+}
+setInterval(createHeart,500);
+
+// SLIDESHOW (will NOT stop)
+const slides = document.querySelectorAll(".slide");
+let index = 0;
+
+setInterval(()=>{
+  slides[index].classList.remove("active");
+  index = (index + 1) % slides.length;
+  slides[index].classList.add("active");
+
+  // pause video when leaving slide 2
+  document.getElementById("v1").pause();
+
+  // if coming back to video slide, restart muted
+  if(index === 1){
+    document.getElementById("v1").currentTime = 0;
+    document.getElementById("v1").play().catch(()=>{});
+  }
+
+},15000);
+
+// MUSIC UNLOCK (most reliable way)
+document.addEventListener("click",()=>{
+  document.getElementById("bgm").play();
+},{once:true});
+
+// ROTATE c1,c2,c3
+let pics = ["c1.jpeg","c2.jpeg","c3.jpeg"];
+let i = 0;
+setInterval(()=>{
+  document.getElementById("sl1").src = pics[i];
+  i = (i + 1) % pics.length;
+},3000);
+
+// FAST NO BUTTON
+document.getElementById("no").addEventListener("mouseover",()=>{
+  document.getElementById("no").style.left = (Math.random()*350 - 175) + "px";
+  document.getElementById("no").style.top = (Math.random()*200 - 100) + "px";
+});
+
+// FINAL MESSAGE
+document.getElementById("yes").addEventListener("click",()=>{
+  document.getElementById("fireworks").style.display="block";
+  document.getElementById("final-line").style.display="block";
+});
+</script>
+
+</body>
+</html>
